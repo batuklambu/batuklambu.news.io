@@ -11,12 +11,12 @@ const Stories = () => {
 
   return (
     <section className="stories">
-      {articles.map((article) => {
+      {articles.map((article, index) => {
         const { publishedAt, title, description, url, content, author } =
           article;
         console.log(article);
         return (
-          <article key={publishedAt} className="story">
+          <article key={index} className="story">
             <h4 className="title"> {title}</h4>
             <p className="info">author : {author} </p>
             <p className="info"> description : {description}</p>

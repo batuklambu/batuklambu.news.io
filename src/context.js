@@ -17,8 +17,9 @@ const intialState = {
   isLoading: true,
   articles: [],
   page: 0,
-  pageSize: 10,
-  q: 'Disney',
+  pageSize: 20,
+  //   q: 'Disney',
+  country: 'us',
   totalResults: 0,
   apiKey: 'b1ba4c65195a4399af6d0685b68b74d9',
 };
@@ -38,8 +39,8 @@ const AppProvider = ({ children }) => {
         type: SET_STORIES,
         payload: {
           articles: data.articles,
-          pageSize: data.pageSize,
-          totalResults: data.totalResults,
+          pageSize: Math.ceil(data.totalResults / 20),
+          //   totalResults: data.totalResults,
         },
       });
     } catch (error) {
@@ -63,9 +64,9 @@ const AppProvider = ({ children }) => {
 
   useEffect(() => {
     fetchStories(
-      `${url}q=${state.q}&apiKey=${state.apiKey}&page=${state.page}`
+      `${url}country=${state.country}&apiKey=${state.apiKey}&page=${state.page}`
     );
-  }, [state.q, state.page, state.apiKey]);
+  }, [state.country, state.page, state.apiKey]);
 
   return (
     <AppContext.Provider

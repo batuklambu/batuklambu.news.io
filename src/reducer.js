@@ -29,7 +29,7 @@ const reducer = (state, action) => {
     case HANDLE_SEARCH:
       return {
         ...state,
-        q: action.payload,
+        country: action.payload,
         page: 0,
       };
 
