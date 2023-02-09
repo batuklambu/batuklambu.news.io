@@ -19,7 +19,7 @@ const intialState = {
   page: 0,
   pageSize: 0,
   q: 'Disney',
-
+  totalResults: 0,
   apiKey: '36917187e8994dc3a126a5c28429fdb6',
 };
 
@@ -34,6 +34,14 @@ const AppProvider = ({ children }) => {
       const response = await fetch(url);
       const data = await response.json();
       console.log(data);
+      dispatch({
+        type: SET_STORIES,
+        payload: {
+          articles: data.articles,
+          pageSize: data.pageSize,
+          totalResults: data.totalResults,
+        },
+      });
     } catch (error) {
       console.log(error);
     }
