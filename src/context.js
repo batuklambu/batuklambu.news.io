@@ -8,7 +8,7 @@ import {
   HANDLE_SEARCH,
 } from './actions.js';
 
-const apiKey = '36917187e8994dc3a126a5c28429fdb6';
+// const apiKey = '36917187e8994dc3a126a5c28429fdb6';
 // const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
 // const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
 const url = 'https://newsapi.org/v2/top-headlines?';
@@ -17,10 +17,10 @@ const intialState = {
   isLoading: true,
   articles: [],
   page: 0,
-  pageSize: 0,
+  pageSize: 10,
   q: 'Disney',
   totalResults: 0,
-  apiKey: '36917187e8994dc3a126a5c28429fdb6',
+  apiKey: 'b1ba4c65195a4399af6d0685b68b74d9',
 };
 
 const AppContext = createContext();
@@ -52,14 +52,25 @@ const AppProvider = ({ children }) => {
     console.log(publishedAt);
   };
 
+  const handleSearch = (q) => {
+    dispatch({ type: HANDLE_SEARCH, payload: q });
+  };
+
+  const handlePage = (value) => {
+    console.log(value);
+    dispatch({ type: HANDLE_PAGE, payload: value });
+  };
+
   useEffect(() => {
     fetchStories(
       `${url}q=${state.q}&apiKey=${state.apiKey}&page=${state.page}`
     );
-  }, []);
+  }, [state.q, state.page, state.apiKey]);
 
   return (
-    <AppContext.Provider value={{ ...state, removeStory }}>
+    <AppContext.Provider
+      value={{ ...state, removeStory, handleSearch, handlePage }}
+    >
       {children}
     </AppContext.Provider>
   );
