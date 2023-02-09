@@ -47,6 +47,11 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  const removeStory = (publishedAt) => {
+    dispatch({ type: REMOVE_STORY, payload: publishedAt });
+    console.log(publishedAt);
+  };
+
   useEffect(() => {
     fetchStories(
       `${url}q=${state.q}&apiKey=${state.apiKey}&page=${state.page}`
@@ -54,7 +59,9 @@ const AppProvider = ({ children }) => {
   }, []);
 
   return (
-    <AppContext.Provider value={{ ...state }}>{children}</AppContext.Provider>
+    <AppContext.Provider value={{ ...state, removeStory }}>
+      {children}
+    </AppContext.Provider>
   );
 };
 

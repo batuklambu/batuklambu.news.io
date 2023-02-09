@@ -19,6 +19,13 @@ const reducer = (state, action) => {
         pageSize: action.payload.pageSize,
         totalResults: action.payload.totalResults,
       };
+    case REMOVE_STORY:
+      return {
+        ...state,
+        articles: state.articles.filter(
+          (story) => story.publishedAt !== action.payload
+        ),
+      };
 
     default:
       throw new Error(`no matching "${action.type}" action type`);
