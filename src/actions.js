@@ -1,5 +1,5 @@
 export const SET_LOADING = 'SET_LOADING';
-export const SET_STORIES = 'SET_STORIES';
-export const REMOVE_STORY = 'REMOVE_STORY';
+export const SET_NEWS = 'SET_NEWS';
+export const REMOVE_NEWS = 'REMOVE_NEWS';
 export const HANDLE_PAGE = 'HANDLE_PAGE';
 export const HANDLE_SEARCH = 'HANDLE_SEARCH';

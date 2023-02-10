@@ -11,10 +11,10 @@ const SearchForm = () => {
       <img src={logo} className="App-logo" alt="logo" />
       <h2> news</h2>
       <input
-        // placeholder="search for topics,location andd sources in US"
         type="text"
         className="form-input"
         value={country}
+        placeholder="search for topics,location andd sources in US"
         onChange={(evt) => handleSearch(evt.target.value)}
       ></input>
     </form>

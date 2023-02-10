@@ -2,8 +2,8 @@ import React, { createContext, useContext, useEffect, useReducer } from 'react';
 import reducer from './reducer';
 import {
   SET_LOADING,
-  SET_STORIES,
-  REMOVE_STORY,
+  SET_NEWS,
+  REMOVE_NEWS,
   HANDLE_PAGE,
   HANDLE_SEARCH,
 } from './actions.js';
@@ -11,17 +11,20 @@ import {
 // const apiKey = '36917187e8994dc3a126a5c28429fdb6';
 // const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
 // const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
-const url = 'https://newsapi.org/v2/top-headlines?';
+// const url = 'https://newsapi.org/v2/top-headlines?';
+// const url = 'https://newsapi.org/v2/everything?';
+
+// https://newsapi.org/v2/everything?q=us&apiKey=b1ba4c65195a4399af6d0685b68b74d9
 
 const intialState = {
   isLoading: true,
   articles: [],
   page: 0,
   pageSize: 20,
-  //   q: 'Disney',
+  //   q: 'tesla',
   country: 'us',
   totalResults: 0,
-  apiKey: 'b1ba4c65195a4399af6d0685b68b74d9',
+  apiKey: process.env.REACT_APP_API_KEY,
 };
 
 const AppContext = createContext();
@@ -29,18 +32,20 @@ const AppContext = createContext();
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, intialState);
 
-  const fetchStories = async (url) => {
+  const fetchStories = async () => {
     dispatch({ type: SET_LOADING });
     try {
-      const response = await fetch(url);
+      const response = await fetch(
+        `https://newsapi.org/v2/everything?q=${state.country}&apiKey=${state.apiKey}`
+      );
       const data = await response.json();
       console.log(data);
       dispatch({
-        type: SET_STORIES,
+        type: SET_NEWS, //
         payload: {
           articles: data.articles,
           pageSize: Math.ceil(data.totalResults / 20),
-          //   totalResults: data.totalResults,
+          totalResults: data.totalResults,
         },
       });
     } catch (error) {
@@ -49,12 +54,13 @@ const AppProvider = ({ children }) => {
   };
 
   const removeStory = (publishedAt) => {
-    dispatch({ type: REMOVE_STORY, payload: publishedAt });
+    dispatch({ type: REMOVE_NEWS, payload: publishedAt });
     console.log(publishedAt);
   };
 
-  const handleSearch = (q) => {
-    dispatch({ type: HANDLE_SEARCH, payload: q });
+  const handleSearch = (country) => {
+    dispatch({ type: HANDLE_SEARCH, payload: country });
+    // console.log(country);
   };
 
   const handlePage = (value) => {
@@ -63,10 +69,9 @@ const AppProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    fetchStories(
-      `${url}country=${state.country}&apiKey=${state.apiKey}&page=${state.page}`
-    );
-  }, [state.country, state.page, state.apiKey]);
+    fetchStories();
+    // `${url}country=${state.country}&apiKey=${state.apiKey}&page=${state.page}`
+  }, [state.country]);
 
   return (
     <AppContext.Provider
